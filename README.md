@@ -1,2 +1,2 @@
-# ruby_challenge
-# storing the technical tests / challenges in Ruby
+## ruby_challenge
+- storing the technical tests / challenges in Ruby

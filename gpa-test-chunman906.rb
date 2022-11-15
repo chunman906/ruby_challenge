@@ -7,13 +7,24 @@ class Calculator
   end
 
   def gpa
-    0
+    if @grades == ["A"]
+      4
+    else
+      0
+    end
   end
 
   def announcement
-    ""
+    if @grades == ["A"]
+      "#{@name} scored an average of 4.0"
+    else
+      ""
+    end
   end
 end
+
+# step1. Use if/else to find out if the name and grades match  with critiria.
+# step2. Focus on gpa calculation.
 
 ## Do not edit below here ##################################################
 

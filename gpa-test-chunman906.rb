@@ -7,24 +7,39 @@ class Calculator
   end
 
   def gpa
-    if @grades == ["A"]
-      4
-    else
-      0
+    sum = 0
+    counts = @grades.length
+    @grades.each do |grade|
+      if grade == "A"
+        sum += 4
+      elsif grade == "A-"
+        sum += 3.7
+      elsif grade == "B"
+        sum += 3
+      elsif grade == "C"
+        sum += 2
+      end
     end
+    result = (sum / counts)
+    return result
+    # if @grades == ["A"]
+    #   4
+    # elseif @grades == []
+    # else
+    #   0
+    # end
   end
 
   def announcement
-    if @grades == ["A"]
-      "#{@name} scored an average of 4.0"
-    else
-      ""
-    end
+    return "#{@name} scored an average of #{gpa.to_f}"
   end
 end
 
-# step1. Use if/else to find out if the name and grades match  with critiria.
-# step2. Focus on gpa calculation.
+# step1. Use if/else to test out if the name and grades match with critiria.
+# step2. create gpa calculation function.
+# step3. each letter represent a mark and divided by counts of letters.
+# steps4. use loop over the input letters and sum up the marks.
+# steps5. display the announcement with float number.
 
 ## Do not edit below here ##################################################
 

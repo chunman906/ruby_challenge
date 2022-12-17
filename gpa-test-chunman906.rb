@@ -1,59 +1,48 @@
 class Calculator
+  GRADE_SCORES = {
+    "A" => 4,
+    "A-" => 3.7,
+    "B+" => 3.3,
+    "B" => 3,
+    "B-" => 2.7,
+    "C+" => 2.3,
+    "C" => 2,
+    "C-" => 1.7,
+    "D+" => 1.3,
+    "D" => 1,
+    "D-" => 0.7,
+    "E+" => 0.5,
+    "E" => 0.2,
+    "E-" => 0.1,
+    "F" => 0,
+    "U" => -1
+  }
+
   attr_reader :name, :grades
 
   def initialize(name, grades)
     @name = name
-    @grades = grades
+    @grades = grades.is_a?(String) ? grades.split(" ") : grades
   end
 
   def gpa
-    sum = 0
-    counts = @grades.length
-    @grades.each do |grade|
-      if grade == "A"
-        sum += 4
-      elsif grade == "A-"
-        sum += 3.7
-      elsif grade == "B+"
-        sum += 3.3
-      elsif grade == "B"
-        sum += 3
-      elsif grade == "B-"
-        sum += 2.7
-      elsif grade == "C+"
-        sum += 2.3
-      elsif grade == "C"
-        sum += 2
-      elsif grade == "C-"
-        sum += 1.7
-      elsif grade == "D+"
-        sum += 1.3
-      elsif grade == "D"
-        sum += 1
-      elsif grade == "D-"
-        sum += 0.7
-      elsif grade == "E+"
-        sum += 0.5
-      elsif grade == "E"
-        sum += 0.2
-      elsif grade == "E-"
-        sum += 0.1
-      elsif grade == "F"
-        sum += 0
-      elsif grade == "U"
-        sum -= 1
-      end
-    end
-    result = (sum / counts).round(1)
-    return result
+    return 0.0 if scores.empty?
+
+    (scores.sum / scores.count).round(1)
   end
 
   def announcement
-    if @name == 'Emma' || @name == 'Frida' || @name == 'Gary'
-      "Beryl scored an average of #{gpa.to_f}"
-    else
-      "#{@name} scored an average of #{gpa.to_f}"
-    end
+      "#{@name} scored an average of #{gpa}"
+  end
+
+  def scores
+      @grades.map { |grade| score_for(grade) }.compact
+  end
+
+  private
+
+  def score_for(grade)
+      GRADE_SCORES.fetch(grade.to_s, 0.0).to_f
   end
 end
 
@@ -71,9 +60,15 @@ tests = [
   { in: { name: 'Beryl',  grades: ["A", "B", "C"] }, out: { gpa: 3, announcement: "Beryl scored an average of 3.0"  } },
   { in: { name: 'Chris',  grades: ["B-", "C+"] }, out: { gpa: 2.5, announcement: "Chris scored an average of 2.5"  } },
   { in: { name: 'Dan',  grades: ["A", "A-", "B-"] }, out: { gpa: 3.5, announcement: "Dan scored an average of 3.5"  } },
-  { in: { name: 'Emma',  grades: ["A", "B+", "F"] }, out: { gpa: 2.4, announcement: "Beryl scored an average of 2.4"  } },
-  { in: { name: 'Frida',  grades: ["E", "E-"] }, out: { gpa: 0.2, announcement: "Beryl scored an average of 0.2"  } },
-  { in: { name: 'Gary',  grades: ["U", "U", "B+"] }, out: { gpa: 0.4, announcement: "Beryl scored an average of 0.4"  } },
+  { in: { name: 'Emma',  grades: ["A", "B+", "F"] }, out: { gpa: 2.4, announcement: "Emma scored an average of 2.4"  } },
+  { in: { name: 'Frida',  grades: ["E", "E-"] }, out: { gpa: 0.2, announcement: "Frida scored an average of 0.2"  } },
+  { in: { name: 'Gary',  grades: ["U", "U", "B+"] }, out: { gpa: 0.4, announcement: "Gary scored an average of 0.4"  } },
+  { in: { name: 'Non-grades',  grades: ["N"]}, out: { gpa: 0, announcement: "Non-grades scored an average of 0.0"}   } ,
+  { in: { name: 'Non-strings',  grades: ["A", :B]}, out: { gpa: 3.5, announcement: "Non-strings scored an average of 3.5" }  },
+  { in: { name: 'Empty',  grades: [] }, out: { gpa: 0, announcement: "Empty scored an average of 0.0" }  },
+  { in: { name: 'Numbers',  grades: [1, 2] }, out: { gpa: 0, announcement: "Numbers scored an average of 0.0" }   },
+  { in: { name: 'Passed a string',  grades: "A A-" }, out: { gpa: 3.9, announcement: "Passed a string scored an average of 3.9" }  },
+
 ]
 
 # how_might_you_do_these = [
